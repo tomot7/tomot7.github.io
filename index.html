@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>エンジニアプロフィール</title>
+  <!-- Beer CSS の読み込み -->
+  <link href="https://cdn.jsdelivr.net/npm/beercss@3.9.4/dist/cdn/beer.min.css" rel="stylesheet" />
+  <!-- Google Fonts (Roboto) の読み込み -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet" />
+  <!-- FontAwesome 6.7.2 (SRIなし) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <style>
+    /* ベース設定 */
+    html,
+    body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      font-family: "Roboto", sans-serif;
+      background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+      color: #333;
+    }
+
+    /* ダッシュボード全体 */
+    .dashboard {
+      display: flex;
+      min-height: 100vh;
+      width: 100%;
+    }
+
+    /* サイドバー */
+    .sidebar {
+      width: 200px;
+      background: rgba(255, 255, 255, 0.8);
+      border-right: 1px solid #ddd;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 1rem;
+      transition: all 0.3s ease;
+    }
+
+    /* プロフィール画像エリア */
+    .profile-image {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .profile-image img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .sidebar h1 {
+      font-size: 1.3rem;
+      margin: 0 0 0.2rem;
+    }
+
+    .sidebar p {
+      font-size: 0.9rem;
+      color: #555;
+      margin: 0 0 1rem;
+    }
+
+    /* SNSリンク */
+    .sns-links {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      width: 100%;
+      margin-bottom: 1rem;
+    }
+
+    .sns-links a {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.3rem;
+      color: #4caf50;
+      font-size: 0.9rem;
+      border-radius: 4px;
+      transition: background 0.3s, color 0.3s;
+      text-decoration: none;
+    }
+
+    .sns-links a:hover {
+      background: rgba(76, 175, 80, 0.1);
+      color: #2e7d32;
+    }
+
+    .sns-links i {
+      font-size: 1.2rem;
+    }
+
+    /* メインコンテンツ */
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 1rem;
+    }
+
+    .content-area {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .cards {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .card {
+      background: rgba(255, 255, 255, 0.9);
+      border: 1px solid #eee;
+      border-radius: 6px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      padding: 0.8rem;
+      font-size: 0.9rem;
+    }
+
+    .card h2 {
+      margin: 0 0 0.5rem;
+      font-size: 1.1rem;
+      color: #4caf50;
+      border-bottom: 1px solid #4caf50;
+      padding-bottom: 0.2rem;
+    }
+
+    .card ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .card ul li::before {
+      content: "✓";
+      color: #4caf50;
+      margin-right: 0.3rem;
+    }
+
+    .project-list article {
+      margin-bottom: 0.5rem;
+      padding: 0.4rem;
+      border: 1px solid #ddd;
+      border-radius: 4px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .project-list article:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .project-list h3 {
+      margin: 0 0 0.3rem;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    .project-list p {
+      margin: 0;
+      font-size: 0.9rem;
+    }
+
+    /* お問い合わせフォームのスタイル */
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: bold;
+    }
+
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    button[type="submit"] {
+      padding: 0.5rem 1rem;
+      border: none;
+      border-radius: 4px;
+      background: #4caf50;
+      color: #fff;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    button[type="submit"]:hover {
+      background: #2e7d32;
+    }
+
+    /* レスポンシブ対応：スマホサイズ */
+    @media (max-width: 768px) {
+      .dashboard {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+
+      .sns-links {
+        flex-direction: row;
+        justify-content: center;
+      }
+
+      .sns-links a {
+        justify-content: center;
+      }
+
+      main {
+        margin: 0.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="dashboard">
+    <!-- サイドバー -->
+    <aside class="sidebar">
+      <!-- プロフィール画像エリア -->
+      <div class="profile-image">
+        <img src="photo/profile.webp" alt="プロフィール画像" />
+      </div>
+      <h1>Yutaro Kawauchi</h1>
+      <p>将棋・PC講師</p>
+      <!-- SNSリンク -->
+      <div class="sns-links">
+        <a href="https://x.com/1452832a" target="_blank">
+          <i class="fa-brands fa-x-twitter"></i> X
+        </a>
+        <a href="https://instagram.com/johndoe" target="_blank">
+          <i class="fa-brands fa-instagram"></i> Instagram
+        </a>
+        <a href="https://note.com/tomot_shogi" target="_blank">
+          <i class="fa-regular fa-note-sticky"></i> note
+        </a>
+        <a href="https://bsky.app/profile/tomot7.bsky.social" target="_blank">
+          <i class="fa-brands fa-bluesky"></i> Bluesky
+        </a>
+        <a href="https://www.street-academy.com/steachers/776352?conversion_name=direct_message&tracking_code=11cf96dba0fdfe11ebd94e5245037f8e"
+          target="_blank">
+          ストアカ
+        </a>
+      </div>
+    </aside>
+
+    <!-- メインコンテンツ -->
+    <main>
+      <div class="content-area">
+        <div class="cards">
+          <!-- Card 1: 自己紹介 -->
+          <div class="card" id="card-about">
+            <h2>自己紹介</h2>
+            <p>
+              ストアカで将棋講師、専門学校等でPC講師をしています。<br />
+              Vue.jsを使用したフロントエンド開発、Pythonを使用したCSV操作、GISを使用した地理データの可視化が得意です。<br />
+            </p>
+          </div>
+
+          <!-- Card 2: 保有資格 -->
+          <div class="card" id="card-skills">
+            <h2>保有資格</h2>
+            <ul>
+              <li>日本将棋連盟公認アマチュア四段（2023年6月）</li>
+              <li>応用情報技術者試験合格（2022年10月）</li>
+              <li>情報セキュリティマネジメント試験合格（2021年7月）</li>
+              <li>基本情報技術者試験合格（2021年6月）</li>
+            </ul>
+          </div>
+
+          <!-- Card 3: サイトとか色々 -->
+          <div class="card" id="card-projects">
+            <h2>サイトとか色々</h2>
+            <div class="project-list">
+              <!-- プロジェクトの内容をここに追加 -->
+            </div>
+          </div>
+
+          <!-- Card 4: お問い合わせ -->
+          <div class="card" id="card-contact">
+            <h2>お問い合わせ</h2>
+            <p>お仕事・レッスンのご依頼がございましたら、各SNSにご連絡ください。</p>
+          </div>
+
+        </div>
+      </div>
+    </main>
+  </div>
+</body>
+
+</html>
